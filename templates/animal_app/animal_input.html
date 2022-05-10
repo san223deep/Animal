@@ -1,0 +1,9 @@
+{% if animals %}
+<select name="animal" class="form-select" hx-get="{% url 'get_breeds' %}" hx-trigger="change"
+        hx-swap="innerHTML" hx-target="#breed-input" id="animal-field">
+  <option>Select Animal</option>
+  {% for animal in animals %}
+  <option value="{{ animal.pk }}">{{ animal.name }}</option>
+  {% endfor %}
+</select>
+{% endif %}

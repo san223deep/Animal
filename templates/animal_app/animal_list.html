@@ -1,0 +1,9 @@
+{% for animal in animal_list %}
+    <tr>
+        <td>{{ animal.animal.name }}</td>
+        <td>{{ animal.breed.name }}</td>
+        <td>{{ animal.date }}</td>
+        <td><a hx-delete="{% url 'remove_row' pk=animal.pk %}" hx-confirm="Are you sure you want to delete this row?"
+        hx-target="#table-list" href="#">Delete</a></td>
+    </tr>
+{% endfor %}

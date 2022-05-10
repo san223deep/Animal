@@ -1,0 +1,6 @@
+<select name="breed" class="form-select" onchange="getDateField()" id="breed-field">
+  <option>Select Breed</option>
+  {% for breed in breeds %}
+  <option value="{{ breed.pk }}">{{ breed.name }}</option>
+  {% endfor %}
+</select>

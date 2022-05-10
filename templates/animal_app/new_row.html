@@ -1,0 +1,7 @@
+<tr class="new-row">
+    <td>{{ row.animal.name }}</td>
+    <td>{{ row.breed.name }}</td>
+    <td>{{ row.date }}</td>
+    <td><a hx-delete="{% url 'remove_row' pk=row.pk %}" hx-confirm="Are you sure you wish to delete your account?"
+        hx-target="#table-list" href="#">Delete</a></td>
+</tr>

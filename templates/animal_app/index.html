@@ -1,0 +1,83 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <title>Animals</title>
+      <style>
+          .new-row {
+                animation: myfirst 2s 1;
+            }
+
+            @keyframes myfirst
+            {
+                0%      {background:#198754; color: #fff}
+                25%     {background:#198754; color:#fff}
+                75%     {background:#198754; color: #fff}
+                100%    {background:#fff; color: #000}
+            }
+      </style>
+  </head>
+  <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+  <div class="container-fluid px-5">
+      <div class="mt-4">
+          <button class="btn btn-primary btn-sm add-new" hx-get="{% url 'get_animals' %}" hx-trigger="click"
+                  hx-target="#animal-input" hx-swap="innerHTML">New</button>
+      </div>
+      <div class="animal-form-block mt-4 pb-4 border-bottom">
+          <form method="post" hx-post="{% url 'home' %}" hx-target="#table-list" hx-swap="afterbegin">
+              {% csrf_token %}
+              <div class="row">
+                <div id="animal-input" class="col-sm-3"></div>
+                <div id="breed-input" class="col-sm-3"></div>
+                <div id="date-input" class="col-sm-3 d-none">
+                    {{ form.date }}
+                </div>
+                <div id="submit-input" class="col-sm-3 d-none response-wrapper">
+                    <input type="submit" class="btn btn-success" value="Save">
+                    <button class="btn btn-outline-secondary" type="button" onclick="removeForm()">Cancel</button>
+                </div>
+              </div>
+          </form>
+      </div>
+    <table class="table mt-4 table-striped">
+        <thead>
+        <tr>
+            <th>Animal</th>
+            <th>Breed</th>
+            <th>Date</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody id="table-list">
+            {% include 'animal_app/animal_list.html' %}
+        </tbody>
+    </table>
+
+  </div>
+  </body>
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/htmx.min.js' %}"></script>
+  <script>
+      function getDateField(){
+          document.getElementById("date-input").classList.remove("d-none");
+          document.getElementById("submit-input").classList.remove("d-none");
+      }
+      function removeForm(){
+          document.getElementById("date-input").classList.add("d-none");
+          document.getElementById("submit-input").classList.add("d-none");
+          document.getElementById("animal-field").remove();
+          document.getElementById("breed-field").remove();
+      }
+
+        htmx.onLoad(function(elt) {
+            if (document.querySelectorAll("#table-list .new-row").length > 0){
+              removeForm()
+            }
+        })
+  </script>
+</html>
